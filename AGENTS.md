@@ -18,8 +18,8 @@ This document provides guidelines for AI coding agents working on this PyXFlow-b
 # Activate virtual environment
 source .venv/bin/activate
 
-# Run the application (from parent directory /private/tmp/kk)
-python -m kk
+# Run the application (from project root directory)
+python -m vaadin_game_boards
 
 # Application opens at http://localhost:8080
 ```
@@ -43,7 +43,7 @@ pip install pyxflow python-chess
 ## Project Structure
 
 ```
-kk/                          # Main package (run as: python -m kk)
+vaadin-game-boards/          # Main package (run as: python -m vaadin_game_boards)
   __main__.py                # Entry point - FlowApp().run()
   lib/
     __init__.py              # Empty
@@ -273,9 +273,9 @@ def _save_cookies(self):
 
 ## Entry Point Reminder
 
-Run from parent directory (`/private/tmp/kk`):
+Run from the project root directory:
 ```bash
-python -m kk
+python -m vaadin_game_boards
 ```
 
 The `__main__.py` file contains:

@@ -39,8 +39,9 @@ The entire UI runs in your browser while the game logic executes server-side in 
 If you need to set up the project from scratch:
 
 ```bash
-# 1. Navigate to the kk directory
-cd kk
+# 1. Clone the repository
+git clone https://github.com/manolo/vaadin-game-boards.git
+cd vaadin-game-boards
 
 # 2. Create virtual environment
 python -m venv .venv
@@ -59,14 +60,14 @@ brew install stockfish  # macOS
 ## Quick Start
 
 ```bash
-# 1. Clone or navigate to the project
-cd /path/to/parent/directory
+# 1. Navigate to the project directory
+cd vaadin-game-boards
 
 # 2. Activate virtual environment (if not already activated)
-source kk/.venv/bin/activate
+source .venv/bin/activate
 
 # 3. Run the application
-python -m kk
+python -m vaadin_game_boards
 ```
 
 The server will start and automatically open your browser at http://localhost:8080
@@ -80,7 +81,7 @@ Press `Ctrl+C` in the terminal to stop the server.
 ## Project Structure
 
 ```
-kk/
+vaadin-game-boards/
 ├── __main__.py           # Entry point
 ├── lib/                  # Game logic
 │   ├── sudoku_engine.py  # Sudoku puzzle generation

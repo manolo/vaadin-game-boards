@@ -11,21 +11,22 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    font-size: 65px;
     cursor: pointer;
     user-select: none;
     width: 80px;
     height: 80px;
     box-sizing: border-box;
-    line-height: 1;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .chess-cell.light-square {
-    background: #f0d9b5;
+    background-color: #f0d9b5;
 }
 
 .chess-cell.dark-square {
-    background: #b58863;
+    background-color: #b58863;
 }
 
 .chess-cell.selected {
@@ -44,31 +45,20 @@
     height: 18px;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.25);
+    z-index: 2;
 }
 
 .chess-cell.last-move.light-square {
-    background: #cdd26a;
+    background-color: #cdd26a;
 }
 
 .chess-cell.last-move.dark-square {
-    background: #aaa23a;
-}
-
-.chess-cell.white-piece {
-    color: #fff;
-    text-shadow:
-        -1px -1px 0 #000,
-         1px -1px 0 #000,
-        -1px  1px 0 #000,
-         1px  1px 0 #000;
-}
-
-.chess-cell.black-piece {
-    color: #000;
+    background-color: #aaa23a;
 }
 
 .chess-cell.check-king {
-    background: radial-gradient(ellipse at center, #ff0000 0%, #e70000 25%, rgba(169, 0, 0, 0) 89%);
+    background-color: #e70000;
+    box-shadow: inset 0 0 15px 5px rgba(255, 0, 0, 0.6);
 }
 
 /* Board coordinate labels */

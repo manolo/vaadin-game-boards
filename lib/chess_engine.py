@@ -3,23 +3,18 @@
 import shutil
 import warnings
 import chess
+import chess.svg
 
 from .uci_engine import UCIEngine
 from .snakefish.chessboard import ChessBoard as SnakefishBoard
 from .snakefish.constants import Piece as SfPiece
 from .snakefish import search as sf_search
 
-# Unicode chess pieces (outlined for white, filled for black)
-# U+FE0E forces text presentation (prevents emoji rendering of black pawn)
-_TEXT = "\ufe0e"
-PIECE_SYMBOLS = {
-    chess.PAWN:   {chess.WHITE: "\u2659" + _TEXT, chess.BLACK: "\u265f" + _TEXT},
-    chess.KNIGHT: {chess.WHITE: "\u2658" + _TEXT, chess.BLACK: "\u265e" + _TEXT},
-    chess.BISHOP: {chess.WHITE: "\u2657" + _TEXT, chess.BLACK: "\u265d" + _TEXT},
-    chess.ROOK:   {chess.WHITE: "\u2656" + _TEXT, chess.BLACK: "\u265c" + _TEXT},
-    chess.QUEEN:  {chess.WHITE: "\u2655" + _TEXT, chess.BLACK: "\u265b" + _TEXT},
-    chess.KING:   {chess.WHITE: "\u2654" + _TEXT, chess.BLACK: "\u265a" + _TEXT},
-}
+# Pre-generated SVG strings for each piece (from python-chess)
+PIECE_SVGS: dict[tuple[int, bool], str] = {}
+for _pt in chess.PIECE_TYPES:
+    for _color in chess.COLORS:
+        PIECE_SVGS[(_pt, _color)] = str(chess.svg.piece(chess.Piece(_pt, _color)))
 
 # Map snakefish promotion pieces to python-chess
 _SF_PROMO_MAP = {

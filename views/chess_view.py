@@ -12,10 +12,17 @@ from pyxflow.components.horizontal_layout import Alignment
 
 from .main_layout import MainLayout
 from ..lib.chess_engine import (
-    ChessGame, AVAILABLE_ENGINES, ENGINE_SNAKEFISH,
+    ChessGame, AVAILABLE_ENGINES, ENGINE_SNAKEFISH, PIECE_SVGS,
 )
 
 _COOKIE_MAX_AGE = 30 * 24 * 3600  # 30 days
+
+# Pre-build data URI strings for inline background-image styles
+from urllib.parse import quote as _url_quote
+_PIECE_BG: dict[tuple[int, bool], str] = {
+    key: f"url('data:image/svg+xml,{_url_quote(svg)}')"
+    for key, svg in PIECE_SVGS.items()
+}
 
 
 @Route("chess", layout=MainLayout)
@@ -142,15 +149,14 @@ class ChessView(VerticalLayout):
                 "selected", "legal-target", "last-move", "check-king"
             )
 
-            cell.remove_class_name("white-piece", "black-piece")
-            piece_sym = self.game.get_piece_at(square)
-            cell.set_text(piece_sym if piece_sym else "")
-            if piece_sym:
-                piece_obj = self.game.board.piece_at(square)
-                if piece_obj and piece_obj.color == chess.WHITE:
-                    cell.add_class_name("white-piece")
-                else:
-                    cell.add_class_name("black-piece")
+            piece_obj = self.game.board.piece_at(square)
+            if piece_obj:
+                cell.get_style().set(
+                    "background-image",
+                    _PIECE_BG[(piece_obj.piece_type, piece_obj.color)],
+                )
+            else:
+                cell.get_style().remove("background-image")
 
             if square == self.selected_square:
                 cell.add_class_name("selected")

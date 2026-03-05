@@ -1,6 +1,15 @@
 # Board Games - PyXFlow App
 
-A web-based board games application built with PyXFlow, featuring Sudoku and Chess games.
+A web-based board games application built with [PyXFlow](https://github.com/manolo/pyxflow), featuring classic Sudoku puzzles and Chess games with AI opponents.
+
+## What is This?
+
+This is a browser-based game collection that runs on Python. You can play:
+
+- **Sudoku**: Generate and solve puzzles with three difficulty levels
+- **Chess**: Play against two different AI engines (Snakefish built-in, or Stockfish if installed)
+
+The entire UI runs in your browser while the game logic executes server-side in Python. Built with PyXFlow, a Python framework that wraps Vaadin web components.
 
 ## Features
 
@@ -18,39 +27,55 @@ A web-based board games application built with PyXFlow, featuring Sudoku and Che
 - Move history persistence via cookies
 - Visual indicators for legal moves, last move, and check
 
-## Requirements
+## System Requirements
 
-- Python 3.14
-- PyXFlow
-- python-chess
-- Stockfish (optional, for Stockfish engine)
+- **Python 3.14** (or compatible version)
+- **PyXFlow** - Python web framework
+- **python-chess** - Chess logic library
+- **Stockfish** (optional) - For enhanced chess AI
 
-## Installation
+## Installation (First Time Setup)
+
+If you need to set up the project from scratch:
 
 ```bash
-# Create and activate virtual environment
+# 1. Navigate to the kk directory
+cd kk
+
+# 2. Create virtual environment
 python -m venv .venv
+
+# 3. Activate it
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
-# Install dependencies
+# 4. Install dependencies
 pip install -r requirements.txt
 
-# Optional: Install Stockfish
+# 5. Optional: Install Stockfish for stronger chess AI
 brew install stockfish  # macOS
 # Or download from https://stockfishchess.org/
 ```
 
-## Running the Application
+## Quick Start
 
 ```bash
-# From parent directory
+# 1. Clone or navigate to the project
+cd /path/to/parent/directory
+
+# 2. Activate virtual environment (if not already activated)
+source kk/.venv/bin/activate
+
+# 3. Run the application
 python -m kk
 ```
 
-The application will start at http://localhost:8080
+The server will start and automatically open your browser at http://localhost:8080
 
-- Sudoku: http://localhost:8080
-- Chess: http://localhost:8080/chess
+**Available Games:**
+- **Sudoku**: http://localhost:8080 (default home page)
+- **Chess**: http://localhost:8080/chess
+
+Press `Ctrl+C` in the terminal to stop the server.
 
 ## Project Structure
 

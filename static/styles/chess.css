@@ -21,6 +21,11 @@
     background-position: center;
 }
 
+.chess-cell[draggable="true"] {
+    cursor: grab;
+}
+
+
 .chess-cell.light-square {
     background-color: #f0d9b5;
 }

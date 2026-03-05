@@ -6,9 +6,11 @@ import chess
 from pyxflow import Route, Menu, PageTitle, Request, Response
 from pyxflow.components import (
     VerticalLayout, HorizontalLayout, Button, ButtonVariant,
-    H2, Div, Span, Notification, NotificationVariant, Icon,
+    H2, Div, Span, Notification, NotificationVariant, Icon, Image,
+    DropEffect,
 )
 from pyxflow.components.horizontal_layout import Alignment
+from pyxflow.components.dnd import DragSource, DropTarget
 
 from .main_layout import MainLayout
 from ..lib.chess_engine import (
@@ -21,6 +23,10 @@ _COOKIE_MAX_AGE = 30 * 24 * 3600  # 30 days
 from urllib.parse import quote as _url_quote
 _PIECE_BG: dict[tuple[int, bool], str] = {
     key: f"url('data:image/svg+xml,{_url_quote(svg)}')"
+    for key, svg in PIECE_SVGS.items()
+}
+_PIECE_SRC: dict[tuple[int, bool], str] = {
+    key: f"data:image/svg+xml,{_url_quote(svg)}"
     for key, svg in PIECE_SVGS.items()
 }
 
@@ -99,13 +105,26 @@ class ChessView(VerticalLayout):
         self.board_div.add_class_name("chess-board")
         self._build_board()
 
+        # Off-screen Image elements used as drag ghosts (one per piece type)
+        self.drag_images: dict[tuple[int, bool], Image] = {}
+        drag_image_box = Div()
+        drag_image_box.get_style().set("position", "fixed")
+        drag_image_box.get_style().set("left", "-9999px")
+        for key, src in _PIECE_SRC.items():
+            img = Image(src)
+            img.set_width("56px")
+            img.set_height("56px")
+            drag_image_box.add(img)
+            self.drag_images[key] = img
+
         # Status below board, right-aligned
         status_row = HorizontalLayout(self.status_label)
         status_row.add_class_name("chess-status-row")
         status_row.set_width_full()
 
-        self.add(controls, self.board_div, status_row)
+        self.add(controls, self.board_div, drag_image_box, status_row)
         self._refresh_board()
+
 
     def after_navigation(self):
         # If restored with engine's turn, let the engine play
@@ -128,7 +147,6 @@ class ChessView(VerticalLayout):
                     cell.add_class_name("dark-square")
                 else:
                     cell.add_class_name("light-square")
-                # Coordinate labels on edges
                 if row_idx == 7:
                     cell.add_class_name("coord-bottom")
                     cell.add_class_name(f"file-{chr(ord('a') + file)}")
@@ -137,6 +155,11 @@ class ChessView(VerticalLayout):
                     cell.add_class_name(f"rank-{rank + 1}")
                 cell.add_click_listener(
                     lambda e, sq=square: self._on_cell_click(sq)
+                )
+                DropTarget.configure(cell)
+                cell.set_drop_effect(DropEffect.MOVE)
+                cell.add_drop_listener(
+                    lambda e, sq=square: self._on_cell_drop(e, sq)
                 )
                 self.board_div.add(cell)
                 self.cells[square] = cell
@@ -157,6 +180,19 @@ class ChessView(VerticalLayout):
                 )
             else:
                 cell.get_style().remove("background-image")
+
+            is_own = (piece_obj and piece_obj.color == self.game.player_color
+                      and self.game.is_players_turn
+                      and not self.game.is_game_over)
+            DragSource.configure(cell, draggable=bool(is_own))
+            if is_own:
+                cell.set_drag_data(square)
+                piece_key = (piece_obj.piece_type, piece_obj.color)
+                cell.set_drag_image(self.drag_images[piece_key], 28, 28)
+                cell.add_drag_start_listener(
+                    lambda e, sq=square: self._on_drag_start(sq))
+                cell.add_drag_end_listener(
+                    lambda e: self._on_drag_end())
 
             if square == self.selected_square:
                 cell.add_class_name("selected")
@@ -195,6 +231,38 @@ class ChessView(VerticalLayout):
                 f"document.cookie='chess_color={color}"
                 f";max-age={_COOKIE_MAX_AGE};path=/;SameSite=Lax';"
             )
+
+    def _on_drag_start(self, square: int):
+        """Show legal targets when drag begins."""
+        targets = set(self.game.get_legal_moves_from(square))
+        for sq, c in self.cells.items():
+            if sq in targets:
+                c.add_class_name("legal-target")
+
+    def _on_drag_end(self):
+        """Clear legal targets when drag ends."""
+        for c in self.cells.values():
+            c.remove_class_name("legal-target")
+
+    def _on_cell_drop(self, event, target_square: int):
+        """Handle drag-and-drop move."""
+        if self.game.is_game_over or not self.game.is_players_turn:
+            return
+        from_square = event.get_drag_data()
+        if from_square is None:
+            return
+        # Check if this is a legal move
+        legal_targets = set(self.game.get_legal_moves_from(from_square))
+        if target_square not in legal_targets:
+            return
+        self.selected_square = None
+        self.legal_targets = set()
+        self.game.make_move(from_square, target_square)
+        self._refresh_board()
+        self._save_cookies()
+        self._check_game_over()
+        if not self.game.is_game_over:
+            asyncio.create_task(self._engine_move_async())
 
     def _on_cell_click(self, square: int):
         """Handle cell click - select piece or make move."""
@@ -302,14 +370,11 @@ class ChessView(VerticalLayout):
     def _toggle_color(self):
         if self.game.player_color == chess.WHITE:
             self.game.set_player_color(chess.BLACK)
-            self.flipped = True
         else:
             self.game.set_player_color(chess.WHITE)
-            self.flipped = False
         self.selected_square = None
         self.legal_targets = set()
         self._update_color_btn()
-        self._build_board()
         self._refresh_board()
         self._save_cookies()
         if not self.game.is_players_turn and not self.game.is_game_over:

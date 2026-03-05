@@ -1,13 +1,13 @@
 # Board Games - PyXFlow App
 
-A web-based board games application built with [PyXFlow](https://github.com/manolo/pyxflow), featuring classic Sudoku puzzles and Chess games with AI opponents.
+A web-based board games application built with [PyXFlow](https://github.com/manolo/pyxflow), featuring classic Sudoku puzzles and Chess games.
 
 ## What is This?
 
 This is a browser-based game collection that runs on Python. You can play:
 
 - **Sudoku**: Generate and solve puzzles with three difficulty levels
-- **Chess**: Play against two different AI engines (Snakefish built-in, or Stockfish if installed)
+- **Chess**: Play against the server using two different chess engines (Snakefish built-in, or Stockfish if installed)
 
 The entire UI runs in your browser while the game logic executes server-side in Python. Built with PyXFlow, a Python framework that wraps Vaadin web components.
 
@@ -20,7 +20,7 @@ The entire UI runs in your browser while the game logic executes server-side in 
 - Hint system highlights duplicate numbers
 
 ### Chess
-- Play against AI engines (Snakefish or Stockfish)
+- Play against the server (powered by Snakefish or Stockfish engines)
 - Click-and-click move interface
 - Undo/Redo functionality
 - Board flip for playing as Black
@@ -32,7 +32,7 @@ The entire UI runs in your browser while the game logic executes server-side in 
 - **Python 3.14** (or compatible version)
 - **PyXFlow** - Python web framework
 - **python-chess** - Chess logic library
-- **Stockfish** (optional) - For enhanced chess AI
+- **Stockfish** (optional) - For stronger chess engine
 
 ## Installation (First Time Setup)
 
@@ -52,7 +52,7 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 # 4. Install dependencies
 pip install -r requirements.txt
 
-# 5. Optional: Install Stockfish for stronger chess AI
+# 5. Optional: Install Stockfish for stronger chess engine
 brew install stockfish  # macOS
 # Or download from https://stockfishchess.org/
 ```

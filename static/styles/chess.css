@@ -1,0 +1,141 @@
+.chess-board {
+    display: grid;
+    grid-template-columns: repeat(8, 80px);
+    grid-template-rows: repeat(8, 80px);
+    border: 3px solid var(--lumo-contrast-80pct);
+    width: fit-content;
+}
+
+.chess-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-size: 65px;
+    cursor: pointer;
+    user-select: none;
+    width: 80px;
+    height: 80px;
+    box-sizing: border-box;
+    line-height: 1;
+}
+
+.chess-cell.light-square {
+    background: #f0d9b5;
+}
+
+.chess-cell.dark-square {
+    background: #b58863;
+}
+
+.chess-cell.selected {
+    outline: 3px solid var(--lumo-primary-color);
+    outline-offset: -3px;
+    z-index: 1;
+}
+
+.chess-cell.legal-target {
+}
+
+.chess-cell.legal-target::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.chess-cell.last-move.light-square {
+    background: #cdd26a;
+}
+
+.chess-cell.last-move.dark-square {
+    background: #aaa23a;
+}
+
+.chess-cell.white-piece {
+    color: #fff;
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
+}
+
+.chess-cell.black-piece {
+    color: #000;
+}
+
+.chess-cell.check-king {
+    background: radial-gradient(ellipse at center, #ff0000 0%, #e70000 25%, rgba(169, 0, 0, 0) 89%);
+}
+
+/* Board coordinate labels */
+.chess-cell.coord-bottom::after,
+.chess-cell.coord-left::before {
+    position: absolute;
+    font-size: 11px;
+    font-weight: 600;
+    pointer-events: none;
+}
+.chess-cell.coord-bottom::after {
+    bottom: 2px;
+    right: 4px;
+}
+.chess-cell.coord-left::before {
+    top: 2px;
+    left: 4px;
+}
+.chess-cell.light-square.coord-bottom::after,
+.chess-cell.light-square.coord-left::before {
+    color: #b58863;
+}
+.chess-cell.dark-square.coord-bottom::after,
+.chess-cell.dark-square.coord-left::before {
+    color: #f0d9b5;
+}
+.coord-bottom.file-a::after { content: "a"; }
+.coord-bottom.file-b::after { content: "b"; }
+.coord-bottom.file-c::after { content: "c"; }
+.coord-bottom.file-d::after { content: "d"; }
+.coord-bottom.file-e::after { content: "e"; }
+.coord-bottom.file-f::after { content: "f"; }
+.coord-bottom.file-g::after { content: "g"; }
+.coord-bottom.file-h::after { content: "h"; }
+.coord-left.rank-1::before { content: "1"; }
+.coord-left.rank-2::before { content: "2"; }
+.coord-left.rank-3::before { content: "3"; }
+.coord-left.rank-4::before { content: "4"; }
+.coord-left.rank-5::before { content: "5"; }
+.coord-left.rank-6::before { content: "6"; }
+.coord-left.rank-7::before { content: "7"; }
+.coord-left.rank-8::before { content: "8"; }
+
+.chess-controls {
+    gap: var(--lumo-space-m);
+}
+
+.chess-engine-btn {
+    font-size: 1.5em;
+}
+
+.chess-color-btn {
+    font-size: 2em;
+    min-width: var(--lumo-size-m);
+    min-height: var(--lumo-size-m);
+}
+.chess-color-btn::part(label) {
+    padding: 0;
+    margin-top: -0.15em;
+}
+
+.chess-status-row {
+    max-width: 640px;
+    justify-content: flex-end;
+}
+
+.chess-status {
+    font-size: var(--lumo-font-size-l);
+    font-weight: 600;
+}

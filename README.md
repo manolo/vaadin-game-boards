@@ -108,4 +108,4 @@ See [AGENTS.md](AGENTS.md) for detailed development guidelines, code style, and 
 
 ## License
 
-MIT
+Apache 2.0

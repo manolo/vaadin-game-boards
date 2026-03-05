@@ -4,7 +4,7 @@ This document provides guidelines for AI coding agents working on this PyXFlow-b
 
 ## Project Overview
 
-- **Framework**: PyXFlow (Python wrapper for Vaadin web components)
+- **Framework**: [PyXFlow](https://manolo.github.io/pyxflow/) (Python wrapper for Vaadin web components)
 - **Python Version**: 3.14
 - **Main Dependencies**: pyxflow, python-chess
 - **Architecture**: Server-side Python rendering web UI with Vaadin components

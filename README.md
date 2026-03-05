@@ -1,6 +1,6 @@
 # Board Games - PyXFlow App
 
-A web-based board games application built with [PyXFlow](https://github.com/manolo/pyxflow), featuring classic Sudoku puzzles and Chess games.
+A web-based board games application built with [PyXFlow](https://manolo.github.io/pyxflow/), featuring classic Sudoku puzzles and Chess games.
 
 ## What is This?
 
@@ -9,7 +9,7 @@ This is a browser-based game collection that runs on Python. You can play:
 - **Sudoku**: Generate and solve puzzles with three difficulty levels
 - **Chess**: Play against the server using two different chess engines (Snakefish built-in, or Stockfish if installed)
 
-The entire UI runs in your browser while the game logic executes server-side in Python. Built with PyXFlow, a Python framework that wraps Vaadin web components.
+The entire UI runs in your browser while the game logic executes server-side in Python. Built with [PyXFlow](https://manolo.github.io/pyxflow/), a Python framework that wraps Vaadin web components.
 
 ## Features
 
@@ -30,7 +30,7 @@ The entire UI runs in your browser while the game logic executes server-side in 
 ## System Requirements
 
 - **Python 3.14** (or compatible version)
-- **PyXFlow** - Python web framework
+- **[PyXFlow](https://manolo.github.io/pyxflow/)** - Python web framework
 - **python-chess** - Chess logic library
 - **Stockfish** (optional) - For stronger chess engine
 
@@ -102,7 +102,7 @@ See [AGENTS.md](AGENTS.md) for detailed development guidelines, code style, and 
 
 ## Technologies
 
-- **PyXFlow**: Python web framework wrapping Vaadin components
+- **[PyXFlow](https://manolo.github.io/pyxflow/)**: Python web framework wrapping Vaadin components
 - **python-chess**: Chess move validation and game logic
 - **Snakefish**: Custom bitboard-based chess engine
 - **Stockfish**: Optional external chess engine via UCI protocol
